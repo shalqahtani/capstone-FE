@@ -1,44 +1,45 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import * as ImagePicker from "expo-image-picker";
 import { Link } from "expo-router";
-import React, { useState } from "react";
 import {
-  Image,
+  ImageBackground,
+  StyleSheet,
   Text,
   TouchableOpacity,
-  View,
-  StyleSheet,
-  ImageBackground,
+  View
 } from "react-native";
 
 const images = require("../../../../images/IMG-20250707-WA0008.jpg");
 
-const MyProfile = () => {
+const MyHome = () => {
   return (
     <View style={{ flex: 1, position: "relative" }}>
       <ImageBackground
         source={images}
         style={StyleSheet.absoluteFill}
-        imageStyle={{ width: "100%", height: "100%", objectFit: "cover" }}
+        imageStyle={{ width: "110%", height: "110%", objectFit: "cover" }}
       />
       <View style={styles.overlay}>
+        <Text style={styles.description}>
+          Welcome! This app helps you donate or collect food, clothes, and furniture for free. 
+          Join our community to give or receive essentials and make a positive impact!
+        </Text>
         <View style={styles.buttonContainer}>
-          <Link href="/provide">
+          <Link href="/(protected)/(tabs)/(home)/choose">
             <TouchableOpacity style={styles.buttonWhite}>
               <MaterialIcons name="checkroom" color={"#047e57"} size={50} />
-              {/* <Text style={styles.buttonGreenText}>Provide</Text> */}
+              <Text style={styles.buttonGreenText}>Clothes</Text>
             </TouchableOpacity>
           </Link>
-          <Link href="/">
+          <Link href="/(protected)/(tabs)/(home)/choose?type=food">
             <TouchableOpacity style={styles.buttonWhite}>
               <MaterialIcons name="restaurant" color={"#047e57"} size={50} />
-              {/* <Text style={styles.buttonGreenText}>Provide</Text> */}
+              <Text style={styles.buttonGreenText}>Food</Text>
             </TouchableOpacity>
           </Link>
-          <Link href="/">
+          <Link href="/(protected)/(tabs)/(home)/choose?type=furniture">
             <TouchableOpacity style={styles.buttonWhite}>
               <MaterialIcons name="weekend" color={"#047e57"} size={50} />
-              {/* <Text style={styles.buttonGreenText}>Provide</Text> */}
+              <Text style={styles.buttonGreenText}>Furniture</Text>
             </TouchableOpacity>
           </Link>
         </View>
@@ -88,11 +89,11 @@ const styles = StyleSheet.create({
   title: { fontSize: 28, fontWeight: "bold", marginBottom: 16 },
   subtitle: { fontSize: 18, color: "#333" },
   buttonContainer: {
-    flexDirection: "column",
+    flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 250,
-    gap: 24,
+    marginTop: 100,
+    gap: 0,
   },
   buttonGreen: {
     backgroundColor: "#047e57",
@@ -104,7 +105,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   buttonGreenText: {
-    color: "#fff",
+    color: "#047e57",
     fontSize: 18,
     fontWeight: "bold",
   },
@@ -114,7 +115,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     borderRadius: 8,
     marginHorizontal: 8,
-    minWidth: 140,
+    minWidth: 100,
     alignItems: "center",
     borderWidth: 2, // Thickness of the border
     borderColor: "#047e57",
@@ -124,6 +125,15 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: "bold",
   },
+  description: {
+    fontSize: 18,
+    color: "#047e57",
+    textAlign: "center",
+    marginTop: 400,
+    marginBottom: 32,
+    marginHorizontal: 24,
+    fontWeight: "500",
+  },
 });
 
-export default MyProfile;
+export default MyHome;

@@ -1,17 +1,14 @@
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
   ImageBackground,
+  StyleSheet,
+  View
 } from "react-native";
 
 const images = require("../../../../images/IMG-20250707-WA0015.jpg");
 
-const MyProfile = () => {
+const Settings = () => {
   const [image, setImage] = useState<string | null>(null);
 
   // Dummy user data
@@ -87,4 +84,4 @@ const styles = StyleSheet.create({
   subtitle: { fontSize: 18, color: "#333" },
 });
 
-export default MyProfile;
+export default Settings;
