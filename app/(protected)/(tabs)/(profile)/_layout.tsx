@@ -1,12 +1,10 @@
 import * as ImagePicker from "expo-image-picker";
 import React, { useState } from "react";
 import {
-  Image,
   ImageBackground,
   StyleSheet,
   Text,
-  TouchableOpacity,
-  View,
+  View
 } from "react-native";
 const images = require("../../../../images/IMG-20250707-WA0006.jpg");
 const MyProfile = () => {
@@ -42,7 +40,7 @@ const MyProfile = () => {
 };
 
 const styles = StyleSheet.create({
-  background: { flex: 1, height: "100%", width: "100%", resizeMode: "cover" },
+  background: { flex: 1, height: "110%", width: "100%", resizeMode: "cover" },
   overlay: {
     flex: 1,
     backgroundColor: "rgba(255,255,255,0)",

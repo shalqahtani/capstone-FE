@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Text, TouchableOpacity, ImageBackground, StyleSheet } from "react-native";
+import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 const images = require("../images/IMG-20250707-WA0005.jpg");
 

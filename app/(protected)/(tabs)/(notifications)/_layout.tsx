@@ -1,12 +1,9 @@
-import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
+import React from "react";
 import {
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  StyleSheet,
   ImageBackground,
+  StyleSheet,
+  Text,
+  View
 } from "react-native";
 
 const images = require("../../../../images/IMG-20250707-WA0009.jpg");
@@ -17,12 +14,12 @@ const Notification = () => {
       <ImageBackground
         source={images}
         style={StyleSheet.absoluteFill}
-        imageStyle={{ width: "100%", height: "100%", objectFit: "cover" }}
+        imageStyle={{ width: "110%", height: "110%", objectFit: "cover" }}
       />
       <View style={styles.overlay}>
-        {/* <Text style={styles.title}>Clothes Section</Text>
-        <Text style={styles.subtitle}>Provide or Receive Clothes</Text> */}
-        {/* Add navigation to Provide/Receptor pages here */}
+       <Text style={styles.title}>Notifications</Text>
+      <Text style={styles.subtitle}>You will receive notifications here.</Text>
+             
       </View>
     </View>
   );
