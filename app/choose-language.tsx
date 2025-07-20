@@ -1,7 +1,7 @@
 import React from "react";
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-const images = require("../images/IMG-20250707-WA0005.jpg");
+const images = require("../images/IMG-20250707-WA0010.jpg");
 
 export default function ChooseLanguage() {
   return (
@@ -20,9 +20,12 @@ export default function ChooseLanguage() {
 }
 
 const styles = StyleSheet.create({
-  background: { flex: 1, justifyContent: "center", alignItems: "center" },
-  container: { backgroundColor: "rgba(255,255,255,0.8)", padding: 32, borderRadius: 16 },
-  title: { fontSize: 28, fontWeight: "bold", marginBottom: 24, textAlign: "center" },
-  button: { backgroundColor: "#2a9d8f", padding: 16, borderRadius: 8, marginVertical: 8 },
-  buttonText: { color: "#fff", fontSize: 18, fontWeight: "bold" },
+  background: { flex: 1,
+    resizeMode: "cover",
+    width: "100%",
+    height: "100%", },
+  container: { backgroundColor: "rgba(255,255,255,0.8)", padding: 32, borderRadius: 16 ,marginTop:450},
+  title: { color: "#047e57", fontSize: 18, fontWeight: "bold", marginBottom: 24, textAlign: "center" },
+  button: { backgroundColor: "#047e57", padding: 12, borderRadius: 8, marginVertical: 8 },
+  buttonText: { color: "#fff", fontSize: 15, fontWeight: "bold" },
 });

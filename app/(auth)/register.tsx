@@ -5,6 +5,7 @@ import { router } from "expo-router";
 import React, { useState } from "react";
 import {
   Image,
+  ImageBackground,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -33,6 +34,7 @@ const Register = () => {
   };
 
 
+const images = require("../../images/IMG-20250707-WA0010.jpg");
 
   const mregister = useMutation({
     mutationKey: ["register"],
@@ -46,17 +48,21 @@ const Register = () => {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
-    >
+    > <ImageBackground
+            source={images}
+            style={StyleSheet.absoluteFill}
+            imageStyle={{ width: "100%", height: "100%", objectFit: "cover" }}
+          />
       <View
         style={{
           flex: 1,
-          backgroundColor: colors.primary,
-          padding: 20,
+          backgroundColor: true ? "rgba(0,0,0,0)" : "transparent",
+          padding: 40,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
-        <View style={{ width: "100%", padding: 20 }}>
+        <View style={{ width: "100%", padding: 20, marginTop: 100 }}>
           <Text
             style={{
               color: colors.white,
@@ -67,13 +73,13 @@ const Register = () => {
           >
             Register
           </Text>
-          <Text style={{ color: colors.white, fontSize: 16 }}>
+          <Text style={{ color: colors.primary, fontSize: 16 }}>
             Create your account
           </Text>
 
           <TextInput
             style={{
-              backgroundColor: colors.white,
+              backgroundColor:  true ? "rgba(4, 126, 87, 0.2)" : "transparent",
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
@@ -85,7 +91,7 @@ const Register = () => {
 
           <TextInput
             style={{
-              backgroundColor: colors.white,
+              backgroundColor:  true ? "rgba(4, 126, 87, 0.2)" : "transparent",
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
@@ -109,13 +115,13 @@ const Register = () => {
     )
   }
   <TouchableOpacity style={{ marginTop: 20 }} onPress={pickImage}>
-    <Text style={{ color: colors.white, fontSize: 16 }}>
+    <Text style={{ color: colors.primary, fontSize: 16 }}>
       Upload Profile Image
     </Text>
   </TouchableOpacity>
           <TouchableOpacity
             style={{
-              backgroundColor: colors.white,
+              backgroundColor: colors.primary,
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
@@ -125,7 +131,7 @@ const Register = () => {
           >
             <Text
               style={{
-                color: colors.primary,
+                color: colors.white,
                 fontWeight: "bold",
                 fontSize: 16,
               }}
@@ -135,9 +141,10 @@ const Register = () => {
           </TouchableOpacity>
 
           <TouchableOpacity style={{ marginTop: 20, alignItems: "center" }}>
-            <Text style={{ color: colors.white, fontSize: 16 }}>
+            <Text style={{ color: colors.primary, fontSize: 16 }}>
               Already have an account?{" "}
-              <Text style={{ color: colors.white, fontWeight: "bold" }}>
+              <Text style={{ color: colors.primary, fontWeight: "bold" }}
+                onPress={() => router.navigate("/(auth)/login")}>
                 Login
               </Text>
             </Text>

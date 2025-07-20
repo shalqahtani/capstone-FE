@@ -1,8 +1,9 @@
-import { fetchItemsByType } from "@/api/items";
+import { collect, fetchItemsByType } from "@/api/items";
+import AuthContext from "@/context/AuthContext";
 import { FontAwesome, MaterialIcons } from "@expo/vector-icons";
-import { useQuery } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { useFocusEffect, useLocalSearchParams } from "expo-router";
-import { useCallback } from "react";
+import { useCallback, useContext } from "react";
 import {
   FlatList,
   Image,
@@ -13,43 +14,20 @@ import {
   View
 } from "react-native";
 
-// Sample Data (mock)
-// const sampleItems = [
-//   {
-//     id: "1",
-//     category: "Instant",
-//     foodType: "Printed",
-//     quantity: "2",
-//     address: "Al-Sahiliya in Via",
-//     location: "https://www.google.com/search?q=google+maperia",
-//     contact: "11111111",
-//     image: "https://loremflickr.com/100/100/furniture",
-//   },
-//   {
-//     id: "2",
-//     details: "Food",
-//     quantity: "1",
-//     address: "Global",
-//     location: "https://www.google.com/search?q=google+maps",
-//     contact: "9999999",
-//     image: "https://loremflickr.com/100/100/furniture",
-//   },
-//   {
-//     id: "3",
-//     category: "AlFalah",
-//     foodType: "Printed",
-//     quantity: "3",
-//     address: "Salmiya in 12",
-//     location: "https://www.google.com/search?q=google+mapsicle",
-//     contact: "88888888",
-//     image: "https://loremflickr.com/100/100/furniture",
-//   },
-// ];
 
 
 export default function Receive() {
   const { type } = useLocalSearchParams();
   const capitalizedType = type?.toString().charAt(0).toUpperCase() + type?.toString().slice(1);
+  const getLatLongFromLocation = (locationString: string) => {
+  const match = locationString.match(/Lat:\s*(-?\d+(\.\d+)?),\s*Lon:\s*(-?\d+(\.\d+)?)/);
+  if (!match) return null;
+  const lat = parseFloat(match[1]);
+  const lon = parseFloat(match[3]);
+  return { lat, lon };
+};
+  const { user, isAuthenticated } = useContext(AuthContext);
+
 const {
   data: items,
   isFetching,
@@ -66,6 +44,18 @@ const {
       refetch();
     }, [refetch])
   );
+  const mcollect = useMutation({
+    mutationKey: ["collect"],
+    mutationFn: ({ provider,receiver,itemType,itemId,message}: { provider: string;receiver: string;itemType: string;itemId: string;message: string;}) =>
+    collect(provider,receiver,itemType,itemId,message),
+    onSuccess: () => {
+    alert("Collected item successfully!");
+  },
+  onError: (err) => {
+    alert("Failed to collect. Please try again.");
+    console.error(err);
+  },
+});
   return (
   <View style={styles.container}>
       {/* <View style={styles.header}> */}
@@ -74,7 +64,7 @@ const {
 
       <FlatList
         data={items}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item._id}
         contentContainerStyle={styles.listContent}
         renderItem={({ item }) => (
 <View style={styles.card}>
@@ -105,6 +95,19 @@ const {
     >
       <FontAwesome name="whatsapp" size={20} color="#25D366" /> WhatsApp
     </Text>
+    {item.location && getLatLongFromLocation(item.location) && (
+  <Text
+    style={styles.linkButton}
+    onPress={() => {
+      const coords = getLatLongFromLocation(item.location);
+      if (coords) {
+        Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lon}`);
+      }
+    }}
+  >
+    <MaterialIcons name="location-on" size={20} color="#f44336" /> View on Map
+  </Text>
+    )}
   </View>
 
   <View style={styles.cardRight}>
@@ -114,13 +117,19 @@ const {
     
     <TouchableOpacity
       style={styles.collectButton}
-      onPress={() => alert(`Collected ${capitalizedType} `)}
+      onPress={() =>
+        
+        isAuthenticated && user &&
+        mcollect.mutate(
+          { provider: item.provider, receiver: user?._id as string,itemType: type as string, itemId: item._id, 
+            message: `${user?._id as string} collected ${item.details} from you.` })
+    }
     >
       <MaterialIcons name="check-circle" size={20} color="#fff" />
       <Text style={styles.collectButtonText}>Collect</Text>
     </TouchableOpacity>
-  </View>
-</View>
+      </View>
+    </View>
         )}
       />
     </View>

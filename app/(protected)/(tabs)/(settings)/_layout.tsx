@@ -1,4 +1,8 @@
-import React from "react";
+import { deleteToken } from "@/api/storage";
+import AuthContext from "@/context/AuthContext";
+import { useQueryClient } from "@tanstack/react-query";
+import { Link, router } from "expo-router";
+import React, { useContext } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -10,6 +14,15 @@ import {
 const background = require("../../../../images/IMG-20250707-WA0015.jpg");
 
 const Settings = () => {
+    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+
+  const queryClient = useQueryClient();
+  const logout = () => {
+    deleteToken(); // <--- This to delete token
+    queryClient.clear(); // Clear all cached queries
+    setIsAuthenticated(false); // If using context
+    router.push("/login");
+  };
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
@@ -26,15 +39,20 @@ const Settings = () => {
           <TouchableOpacity style={styles.option}>
             <Text style={styles.optionText}>Language</Text>
           </TouchableOpacity>
-
+   <Link href="/choose/chooseItem?type=MyDonations" asChild>
           <TouchableOpacity style={styles.option}>
             <Text style={styles.optionText}>My Donations</Text>
           </TouchableOpacity>
+</Link>
 
+      <Link href="/choose/chooseItem?type=MyCollections" asChild>
           <TouchableOpacity style={styles.option}>
             <Text style={styles.optionText}>My Collections</Text>
           </TouchableOpacity>
-
+</Link>
+          <TouchableOpacity style={styles.option} onPress={() => logout()} >
+            <Text style={styles.optionText}>Logout</Text>
+          </TouchableOpacity>
           {/* Contact Button */}
           {/* <TouchableOpacity style={styles.contactBtn}>
             <Text style={styles.contactBtnText}>Contact Us</Text>

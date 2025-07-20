@@ -36,8 +36,9 @@ const login = async (email: string, password: string) => {
   // alert(data.message);
   if (data.token) {
   //  alert(data.token);
-    await storeToken(data.token);
+    await storeToken(data);
   }
   return data;
 };
 export { login, register };
+

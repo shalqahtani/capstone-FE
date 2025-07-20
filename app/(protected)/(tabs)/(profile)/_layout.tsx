@@ -18,7 +18,6 @@ const MyProfile = () => {
     name: "Shahad Al Qahtani",
     email: "shahad@gmail.com",
     phone: "999999999",
-    password: "********",
   };
 
   const pickImage = async () => {
@@ -61,9 +60,6 @@ const MyProfile = () => {
           <Text style={styles.inputText}>{user.phone}</Text>
         </View>
 
-        <View style={styles.inputBox}>
-          <Text style={styles.inputText}>{user.password}</Text>
-        </View>
       </View>
     // </ImageBackground>
   );

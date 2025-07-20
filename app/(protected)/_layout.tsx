@@ -22,15 +22,7 @@ const TabLayout = () => {
          tabBarShowLabel: false,
       }}
     >
-      <Tabs.Screen
-        name="(tabs)/(settings)"
-        options={{
-          title: "Settings",
-          tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="settings" color={color} size={30} />
-          ),
-        }}
-      />
+
       <Tabs.Screen
         name="(tabs)/(home)"
         options={{
@@ -58,7 +50,17 @@ const TabLayout = () => {
           ),
         }}
       />
+        <Tabs.Screen
+        name="(tabs)/(settings)"
+        options={{
+          title: "Settings",
+          tabBarIcon: ({ color, size }) => (
+            <MaterialIcons name="settings" color={color} size={30} />
+          ),
+        }}
+      />
     </Tabs>
+    
   );
 };
 

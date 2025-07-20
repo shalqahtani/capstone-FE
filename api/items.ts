@@ -1,4 +1,5 @@
 import instance from "./index";
+import { send } from "./notifications";
 
 export const provideItemsByType = async (itemType: string,itemData:any,image:string) => {
   const formData = new FormData();
@@ -20,5 +21,35 @@ formData.append("image", {
 
 export const fetchItemsByType = async (itemType: string) => {
     const { data } = await instance.get(`${itemType}/receptor`);
+  return data;
+};
+export const fetchMyDonations = async (itemType: string) => {
+  
+    const { data } = await instance.get(`${itemType}/donations`);
+  return data;
+};
+export const fetchMyCollections = async (itemType: string) => {
+    const { data } = await instance.get(`${itemType}/collections`);
+  return data;
+};
+export const collect = async (provider:string,receiver: string,itemType: string,itemId: string,message: string ) => {
+console.log("Collecting item:", { provider, receiver, itemType, itemId, message });
+  if (!provider || !receiver || !itemType || !itemId) {
+    throw new Error("Missing required parameters for collection");  
+  }
+  console.log("Parameters are valid:", { provider, receiver, itemType, itemId });
+  const { data } = await instance.post(`${itemType}/collect`, {
+    itemId,
+    receiver,
+  }).then(() => {
+    // Send notification after successful collection;
+    return send(
+      provider,
+      receiver,
+      itemType,
+      itemId,
+      message,
+    );
+  });
   return data;
 };

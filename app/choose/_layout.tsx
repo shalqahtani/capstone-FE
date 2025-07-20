@@ -7,17 +7,9 @@ export default function Layout() {
 
          },
         headerTintColor: "#ffffff",headerBackVisible: false, title: "",
-       // headerBackButtonDisplayMode: "minimal",
+         headerBackButtonDisplayMode: "minimal",
         headerTitleStyle: { color: "#ffffff" },
       }}>
-        <Stack.Screen
-        name="/(protected)/(tabs)/(home)"
-        options={{headerShown: false,
-          headerBackVisible: false,
-          gestureEnabled: false,
-          headerTitle: "Home",
-        }}
-      />
         {/* <Slot /> */}
       </Stack>;
 

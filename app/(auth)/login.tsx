@@ -4,6 +4,7 @@ import { useMutation } from "@tanstack/react-query";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import {
+  ImageBackground,
   KeyboardAvoidingView,
   Platform,
   StyleSheet,
@@ -17,6 +18,7 @@ const Index = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [image, setImage] = useState<string | null>(null);
+const images = require("../../images/IMG-20250707-WA0010.jpg");
 
   const mlogin = useMutation({
     mutationKey: ["login"],
@@ -29,24 +31,29 @@ const Index = () => {
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
-    >
+    > <ImageBackground
+        source={images}
+        style={StyleSheet.absoluteFill}
+        imageStyle={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
       <View
         style={{
           flex: 1,
-          backgroundColor: colors.primary,
-          padding: 20,
+          backgroundColor: true ? "rgba(0,0,0,0)" : "transparent",
+          marginTop: 100,
+          padding: 40,
           justifyContent: "center",
           alignItems: "center",
         }}
       >
         <View style={{ width: "100%", padding: 20 }}>
-          <Text style={{ color: colors.white, fontSize: 16 }}>
+          {/* <Text style={{ color: colors.primary, fontSize: 16 }}>
             Login to your account
-          </Text>
+          </Text> */}
 
           <TextInput
             style={{
-              backgroundColor: colors.white,
+              backgroundColor:  true ? "rgba(4, 126, 87, 0.2)" : "transparent",
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
@@ -58,19 +65,20 @@ const Index = () => {
 
           <TextInput
             style={{
-              backgroundColor: colors.white,
+              backgroundColor:  true ? "rgba(4, 126, 87, 0.2)" : "transparent",
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
             }}
             placeholder="Password"
             value={password}
+            secureTextEntry
             onChangeText={setPassword}
           />
 
           <TouchableOpacity
             style={{
-              backgroundColor: colors.white,
+              backgroundColor: colors.primary,
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
@@ -80,7 +88,7 @@ const Index = () => {
           >
             <Text
               style={{
-                color: colors.primary,
+                color: colors.white,
                 fontWeight: "bold",
                 fontSize: 16,
               }}
@@ -89,10 +97,10 @@ const Index = () => {
             </Text>
           </TouchableOpacity>
 
-          <Text style={{ color: colors.white, fontSize: 16 }}>
+          <Text style={{ color: colors.primary, fontSize: 16,marginTop: 20 }}>
             Don't have an account?{" "}
 <Text
-              style={{ color: colors.white, fontWeight: "bold" }}
+              style={{ color: colors.primary, fontWeight: "bold" }}
               onPress={() => router.navigate("/(auth)/register")}
             >
               Register

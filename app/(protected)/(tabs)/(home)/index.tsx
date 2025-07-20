@@ -1,6 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
-import { Link } from "expo-router";
-import React, { useState } from "react";
+import { Link, useNavigation } from "expo-router";
+import React, { useEffect, useState } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -14,7 +14,14 @@ const images = require("../../../../images/IMG-20250707-WA0008.jpg");
 export default function Home() {
   const [step, setStep] = useState<"home" | "choose" | "provide" | "receive">("home");
   const [type, setType] = useState<string>("");
-
+  
+  const navigation = useNavigation();
+  useEffect(() => {
+    navigation.setOptions({
+      headerBackVisible: false, // <-- hides the back button
+      gestureEnabled: false,    // <-- disables swipe back gesture (optional)
+    });
+  }, [navigation]);
   // Home screen
   if (step === "home") {
     return (
