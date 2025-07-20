@@ -6,124 +6,54 @@ import {
   StyleSheet,
   Text,
   TouchableOpacity,
-  View,
+  View
 } from "react-native";
 
 const images = require("../../../../images/IMG-20250707-WA0008.jpg");
 
 export default function Home() {
-  const [step, setStep] = useState<"home" | "choose" | "provide" | "receive">(
-    "home"
-  );
+  const [step, setStep] = useState<"home" | "choose" | "provide" | "receive">("home");
   const [type, setType] = useState<string>("");
 
   // Home screen
   if (step === "home") {
     return (
-      <View style={{ flex: 1, position: "relative" }}>
-        <ImageBackground
-          source={images}
-          style={StyleSheet.absoluteFill}
-          imageStyle={{ width: "110%", height: "110%", objectFit: "cover" }}
-        />
-        <View style={styles.overlay}>
-          <Text style={styles.description}>
-            Welcome! This app helps you donate or collect food, clothes, and
-            furniture for free. Join our community to give or receive essentials
-            and make a positive impact!
-          </Text>
-          <View style={styles.buttonContainer}>
-            <Link href="/(protected)/(tabs)/(home)/choose?type=clothes">
-              <TouchableOpacity style={styles.buttonWhite}>
-                <MaterialIcons name="checkroom" color={"#047e57"} size={50} />
-                <Text style={styles.buttonGreenText}>Clothes</Text>
-              </TouchableOpacity>
-            </Link>
-            <Link href="/(protected)/(tabs)/(home)/choose?type=food">
-              <TouchableOpacity style={styles.buttonWhite}>
-                <MaterialIcons name="restaurant" color={"#047e57"} size={50} />
-                <Text style={styles.buttonGreenText}>Food</Text>
-              </TouchableOpacity>
-            </Link>
-            <Link href="/(protected)/(tabs)/(home)/choose?type=furniture">
-              <TouchableOpacity style={styles.buttonWhite}>
-                <MaterialIcons name="weekend" color={"#047e57"} size={50} />
-                <Text style={styles.buttonGreenText}>Furniture</Text>
-              </TouchableOpacity>
-            </Link>
-          </View>
-          {/* <Text style={styles.title}>Clothes Section</Text>
-        <Text style={styles.subtitle}>Provide or Receive Clothes</Text> */}
-          {/* Add navigation to Provide/Receptor pages here */}
-        </View>
-      </View>
-    );
-  }
-
-  // Choose screen
-  if (step === "choose") {
-    return (
+ <View style={{ flex: 1, position: "relative" }}>
+      <ImageBackground
+        source={images}
+        style={StyleSheet.absoluteFill}
+        imageStyle={{ width: "110%", height: "110%", objectFit: "cover" }}
+      />
       <View style={styles.overlay}>
-        <Text style={styles.title}>
-          {type.charAt(0).toUpperCase() + type.slice(1)}
-        </Text>
-        <Text style={styles.subtitle}>
-          Would you like to provide or receive {type}?
+        <Text style={styles.description}>
+          Welcome! This app helps you donate or collect food, clothes, and furniture for free. 
+          Join our community to give or receive essentials and make a positive impact!
         </Text>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity
-            style={styles.buttonGreen}
-            onPress={() => setStep("provide")}
-          >
-            <Text style={styles.buttonWhiteText}>Provide</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonGreen}
-            onPress={() => setStep("receive")}
-          >
-            <Text style={styles.buttonWhiteText}>Receive</Text>
-          </TouchableOpacity>
+          <Link href="/(protected)/(tabs)/(home)/choose?type=clothes" asChild>
+            <TouchableOpacity style={styles.buttonWhite}>
+              <MaterialIcons name="checkroom" color={"#047e57"} size={50} />
+              <Text style={styles.buttonGreenText}>Clothes</Text>
+            </TouchableOpacity>
+          </Link>
+          <Link href="/(protected)/(tabs)/(home)/choose?type=food" asChild>
+            <TouchableOpacity style={styles.buttonWhite}>
+              <MaterialIcons name="restaurant" color={"#047e57"} size={50} />
+              <Text style={styles.buttonGreenText}>Food</Text>
+            </TouchableOpacity>
+          </Link>
+          <Link href="/(protected)/(tabs)/(home)/choose?type=furniture" asChild>
+            <TouchableOpacity style={styles.buttonWhite}>
+              <MaterialIcons name="weekend" color={"#047e57"} size={50} />
+              <Text style={styles.buttonGreenText}>Furniture</Text>
+            </TouchableOpacity>
+          </Link>
         </View>
+        {/* <Text style={styles.title}>Clothes Section</Text>
+        <Text style={styles.subtitle}>Provide or Receive Clothes</Text> */}
+        {/* Add navigation to Provide/Receptor pages here */}
       </View>
-    );
-  }
-
-  // Provide screen
-  if (step === "provide") {
-    return (
-      <View style={styles.overlay}>
-        <Text style={styles.title}>
-          Provide {type.charAt(0).toUpperCase() + type.slice(1)}
-        </Text>
-        <Text style={styles.subtitle}>
-          Enter item details, location, and upload picture.
-        </Text>
-        {/* Add your form here */}
-        <TouchableOpacity
-          style={styles.buttonWhite}
-          onPress={() => setStep("home")}
-        >
-          <Text style={styles.buttonGreenText}>Back to Home</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
-  // Receive screen
-  if (step === "receive") {
-    return (
-      <View style={styles.overlay}>
-        <Text style={styles.title}>
-          Available {type.charAt(0).toUpperCase() + type.slice(1)}
-        </Text>
-        {/* Render list of available items here */}
-        <TouchableOpacity
-          style={styles.buttonWhite}
-          onPress={() => setStep("home")}
-        >
-          <Text style={styles.buttonGreenText}>Back to Home</Text>
-        </TouchableOpacity>
-      </View>
+    </View>
     );
   }
 
@@ -171,7 +101,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: 100,
+    marginTop: 50,
     gap: 0,
   },
   buttonGreen: {

@@ -1,84 +1,97 @@
-import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
-import { ImageBackground, StyleSheet, Text, View } from "react-native";
+import React from "react";
+import {
+  ImageBackground,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
-const images = require("../../../../images/IMG-20250707-WA0015.jpg");
+const background = require("../../../../images/IMG-20250707-WA0015.jpg");
 
 const Settings = () => {
-  const [image, setImage] = useState<string | null>(null);
-
-  // Dummy user data
-  const user = {
-    name: "John Doe",
-    email: "john.doe@email.com",
-  };
-
-  const pickImage = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.Images,
-      allowsEditing: true,
-      aspect: [1, 1],
-      quality: 1,
-    });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
-    }
-  };
-
   return (
-    <View style={{ flex: 1, position: "relative" }}>
+    <View style={{ flex: 1 }}>
       <ImageBackground
-        source={images}
+        source={background}
         style={StyleSheet.absoluteFill}
-        imageStyle={{ width: "110%", height: "110%", objectFit: "cover" }}
+        imageStyle={{ resizeMode: "cover" }}
       />
+
       <View style={styles.overlay}>
-        <Text style={styles.title}>Settings</Text>
-        <Text style={styles.subtitle}>
-          Change language, notifications, and more.
-        </Text>
+        <View style={styles.card}>
+          <Text style={styles.title}>Settings</Text>
+
+          {/* Settings Options */}
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>Language</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>My Donations</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity style={styles.option}>
+            <Text style={styles.optionText}>My Collections</Text>
+          </TouchableOpacity>
+
+          {/* Contact Button */}
+          {/* <TouchableOpacity style={styles.contactBtn}>
+            <Text style={styles.contactBtnText}>Contact Us</Text>
+          </TouchableOpacity> */}
+        </View>
       </View>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
-  background: {
-    flex: 1,
-    width: "100%",
-    height: "100%",
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-  },
-  imageStyle: {
-    width: "100%",
-    height: "100%",
-    objectFit: "cover", // for web
-  },
   overlay: {
     flex: 1,
     backgroundColor: "rgba(255,255,255,0)",
     justifyContent: "center",
     alignItems: "center",
-  },
-  container: {
-    flex: 1,
-    backgroundColor: "#fff",
-    alignItems: "center",
-    marginTop: 40,
     padding: 24,
-    borderRadius: 16,
-    marginHorizontal: 16,
-    shadowColor: "#000",
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 2,
   },
-  title: { fontSize: 28, fontWeight: "bold", marginBottom: 16 },
-  subtitle: { fontSize: 18, color: "#333" },
+  card: {
+    width: "100%",
+    backgroundColor: "#047e57",
+    borderRadius: 16,
+    padding: 24,
+    alignItems: "center",
+  },
+  title: {
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#fff",
+    marginBottom: 24,
+  },
+  option: {
+    backgroundColor: "#f0f0f0",
+    borderRadius: 8,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    width: "100%",
+    marginBottom: 16,
+  },
+  optionText: {
+    fontSize: 16,
+    color: "#333",
+  },
+  contactBtn: {
+    backgroundColor: "#004d3b",
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    borderRadius: 8,
+    marginTop: 20,
+    width: "100%",
+    alignItems: "center",
+  },
+  contactBtnText: {
+    color: "#fff",
+    fontSize: 16,
+    fontWeight: "500",
+  },
 });
 
 export default Settings;

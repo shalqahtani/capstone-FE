@@ -2,7 +2,7 @@ import { getToken } from "@/api/storage";
 import AuthContext from "@/context/AuthContext";
 import colors from "@/data/styling/colors";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { Stack } from "expo-router";
+import { router, Stack } from "expo-router";
 import { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -16,6 +16,9 @@ export default function RootLayout() {
       const token = await getToken();
       if (token) {
         setIsAuthenticated(true);
+      }else {
+        setIsAuthenticated(false);
+        router.push("/login");
       }
     };
     checkToken();

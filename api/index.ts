@@ -1,7 +1,7 @@
 import axios from "axios";
 import { getToken } from "./storage";
 const instance = axios.create({
-  baseURL: "https://react-bank-project.eapi.joincoded.com/",
+  baseURL: "http://localhost:8001/",
 });
 
 //Athourization

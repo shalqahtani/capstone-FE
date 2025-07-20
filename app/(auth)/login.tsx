@@ -91,7 +91,10 @@ const Index = () => {
 
           <Text style={{ color: colors.white, fontSize: 16 }}>
             Don't have an account?{" "}
-            <Text style={{ color: colors.white, fontWeight: "bold" }}>
+<Text
+              style={{ color: colors.white, fontWeight: "bold" }}
+              onPress={() => router.navigate("/(auth)/register")}
+            >
               Register
             </Text>
           </Text>

@@ -19,36 +19,20 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [image, setImage] = useState<string | null>(null);
   const pickImage = async () => {
-    const [image, setImage] = useState<string | null>(null);
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-    if (!result.canceled) {
-      setImage(result.assets[0].uri);
+    if (!result.canceled && result.assets && result.assets.length > 0 && result.assets[0].uri) {
+      
+    console.log("Registering with image: result.assets[0].uri", result.assets[0].uri);
+      setImage(result.assets[0].uri); // Only set the URI string
     }
   };
 
-  {
-    image && (
-      <Image
-        source={{ uri: image }}
-        style={{
-          height: 100,
-          width: 100,
-          borderRadius: 50,
-          marginTop: 10,
-        }}
-      />
-    );
-  }
-  <TouchableOpacity style={{ marginTop: 20 }} onPress={pickImage}>
-    <Text style={{ color: colors.white, fontSize: 16 }}>
-      Upload Profile Image
-    </Text>
-  </TouchableOpacity>;
+
 
   const mregister = useMutation({
     mutationKey: ["register"],
@@ -111,12 +95,24 @@ const Register = () => {
             placeholder="Password"
           />
 
-          <TouchableOpacity style={{ marginTop: 20 }}>
-            <Text style={{ color: colors.white, fontSize: 16 }}>
-              Upload Profile Image
-            </Text>
-          </TouchableOpacity>
-
+              {
+    image && (
+      <Image
+        source={{ uri: image }}
+        style={{
+          height: 100,
+          width: 100,
+          borderRadius: 50,
+          marginTop: 10,
+        }}
+      />
+    )
+  }
+  <TouchableOpacity style={{ marginTop: 20 }} onPress={pickImage}>
+    <Text style={{ color: colors.white, fontSize: 16 }}>
+      Upload Profile Image
+    </Text>
+  </TouchableOpacity>
           <TouchableOpacity
             style={{
               backgroundColor: colors.white,
@@ -154,4 +150,10 @@ const Register = () => {
 
 export default Register;
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+  previewImage: {
+    width: "100%",
+    height: 200,
+    marginBottom: 16,
+    borderRadius: 8,
+  },});

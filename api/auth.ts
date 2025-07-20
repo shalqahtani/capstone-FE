@@ -5,8 +5,9 @@ import { storeToken } from "./storage";
 
 //register
 const register = async (username: string, password: string, image: string) => {
+
   const formData = new FormData();
-  formData.append("username", username);
+  formData.append("email", username);
   formData.append("password", password);
   formData.append("image", {
     name: "image.jpg",
@@ -15,7 +16,7 @@ const register = async (username: string, password: string, image: string) => {
   } as any);
 
   const { data } = await instance.post(
-    "mini-project/api/auth/register",
+    "users/register",
     formData
   );
   //responce (token)
@@ -26,12 +27,15 @@ const register = async (username: string, password: string, image: string) => {
 };
 
 //login
-const login = async (username: string, password: string) => {
-  const { data } = await instance.post("mini-project/api/auth/login", {
-    username,
+const login = async (email: string, password: string) => {
+  //alert(email);
+  const { data } = await instance.post("users/login", {
+    email,
     password,
   });
+  // alert(data.message);
   if (data.token) {
+  //  alert(data.token);
     await storeToken(data.token);
   }
   return data;

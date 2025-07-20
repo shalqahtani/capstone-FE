@@ -1,12 +1,14 @@
 import instance from ".";
 
 const me = async () => {
-  const { data } = await instance.post("users");
+  const { data } = await instance.post("users/profile");
   return data;
 };
 
-const getAllUsers = async () => {
-  const { data } = await instance.get("users");
+const getSettings = async () => {
+  const { data } = await instance.get("users/settings");
   return data;
 };
-export { getAllUsers, me };
+
+
+export { getSettings, me };

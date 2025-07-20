@@ -12,12 +12,14 @@ const TabLayout = () => {
           backgroundColor: colors.primary,
           borderTopColor: colors.primary,
           height: 60,
+          paddingTop: 10,
           paddingBottom: 0,
           marginBottom: 0,
         },
         //tabBarPosition: "top",
         tabBarActiveTintColor: colors.white,
         tabBarInactiveTintColor: colors.white,
+         tabBarShowLabel: false,
       }}
     >
       <Tabs.Screen
@@ -25,7 +27,7 @@ const TabLayout = () => {
         options={{
           title: "Settings",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="settings" color={color} size={size} />
+            <MaterialIcons name="settings" color={color} size={30} />
           ),
         }}
       />
@@ -34,7 +36,7 @@ const TabLayout = () => {
         options={{
           title: "Home",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="home" color={color} size={size} />
+            <MaterialIcons name="home" color={color} size={30} />
           ),
         }}
       />
@@ -43,7 +45,7 @@ const TabLayout = () => {
         options={{
           title: "Notifications",
           tabBarIcon: ({ color, size }) => (
-            <MaterialIcons name="notifications" color={color} size={size} />
+            <MaterialIcons name="notifications" color={color} size={30} />
           ),
         }}
       />
