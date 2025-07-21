@@ -24,9 +24,13 @@ export default function RootLayout() {
     const checkToken = async () => {
       const token = await getToken();
       const userData = await getUser(); // fetch stored user
+      //alert(token);
       if (token && userData) {
+      console.log(JSON.parse(userData));  
+        setLang(JSON.parse(userData).language || "en");
         setIsAuthenticated(true);
         setUser(JSON.parse(userData));
+      console.log(user);  
       } else {
        // alert("You are not authenticated. Please log in.");
         setIsAuthenticated(false);
