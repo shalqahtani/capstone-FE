@@ -112,7 +112,7 @@ const {
 
   <View style={styles.cardRight}>
     {item.image && (
-      <Image source={{ uri: item.image }} style={styles.cardImage} />
+      <Image source={{ uri: item.image }}  resizeMode="contain" style={styles.cardImage} />
     )}
     
     <TouchableOpacity
