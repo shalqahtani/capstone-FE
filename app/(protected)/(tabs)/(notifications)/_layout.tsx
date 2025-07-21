@@ -32,9 +32,9 @@ const {
     }, [refetch])
   );
 
-  const renderItem = ({ item }: { item: string }) => (
+  const renderItem = ({ item }: { item: any }) => (
     <View style={styles.notificationItem}>
-      <Text style={styles.notificationText}>{item}</Text>
+      <Text style={styles.notificationText}>{item.message}</Text>
     </View>
   );
 

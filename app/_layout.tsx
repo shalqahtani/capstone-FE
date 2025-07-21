@@ -8,9 +8,9 @@ import { useEffect, useState } from "react";
 import { StatusBar } from "react-native";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 export interface User {
-  _id: string;
   email: string;
   language: string;
+  _id: string;
 }
 
 export default function RootLayout() {

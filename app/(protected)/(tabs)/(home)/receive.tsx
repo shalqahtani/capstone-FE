@@ -119,10 +119,10 @@ const {
       style={styles.collectButton}
       onPress={() =>
         
-        isAuthenticated && user &&
+        // isAuthenticated && user &&
         mcollect.mutate(
           { provider: item.provider, receiver: user?._id as string,itemType: type as string, itemId: item._id, 
-            message: `${user?._id as string} collected ${item.details} from you.` })
+            message: `${user?.email as string} collected ${item.details} from you.` })
     }
     >
       <MaterialIcons name="check-circle" size={20} color="#fff" />
