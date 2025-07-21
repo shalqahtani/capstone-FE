@@ -2,8 +2,11 @@ import { fetchMyDonations } from '@/api/items'; // Create this API helper
 import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import React from "react";
+import useT from "@/utils/useT";
 
 export default function MyDonations() {
+  const t = useT();
     
       const { type } = useLocalSearchParams();
   const { data, isLoading } = useQuery({
@@ -15,8 +18,11 @@ export default function MyDonations() {
 
   return (
     <View style={{ flex: 1, padding: 16 }}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold' }}>My Donations</Text>
-      <FlatList
+      <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{t("myDonations")}</Text>
+      {data.length === 0 ? (
+        <Text style={styles.empty}>{t("noItems")}</Text>
+      ) : (
+        <FlatList
         data={data}
         keyExtractor={(item) => item._id}
         renderItem={({ item }) => <View style={styles.card}>
@@ -36,6 +42,7 @@ export default function MyDonations() {
     
     }
       />
+      )}
     </View>
   );
 }
@@ -141,4 +148,5 @@ collectButtonText: {
     color: "#333",
     marginBottom: 2,
   },
+  empty: { fontSize: 16, color: "#888" },
 });

@@ -1,6 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import {
   Image,
   StyleSheet,
@@ -8,11 +8,15 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import AuthContext from "@/context/AuthContext";
+import useT from "@/utils/useT";
 
 const background = require("../../../../images/IMG-20250707-WA0006.jpg");
 
 const MyProfile = () => {
   const [image, setImage] = useState<string | null>(null);
+  const { lang } = useContext(AuthContext);
+  const t = useT();
 
   const user = {
     name: "Shahad Al Qahtani",
@@ -36,7 +40,7 @@ const MyProfile = () => {
   return (
     // <ImageBackground source={background} style={styles.background}>
       <View style={styles.overlay}>
-        <Text style={styles.title}>Profile</Text>
+        <Text style={styles.title}>{t("profile")}</Text>
 
         {/* Profile Picture */}
         <TouchableOpacity onPress={pickImage} style={styles.avatarContainer}>
@@ -49,15 +53,15 @@ const MyProfile = () => {
 
         {/* Profile Fields */}
         <View style={styles.inputBox}>
-          <Text style={styles.inputText}>{user.name}</Text>
+          <Text style={styles.inputText}>{t("name")}: {user.name}</Text>
         </View>
 
         <View style={styles.inputBox}>
-          <Text style={styles.inputText}>{user.email}</Text>
+          <Text style={styles.inputText}>{t("email")}: {user.email}</Text>
         </View>
 
         <View style={styles.inputBox}>
-          <Text style={styles.inputText}>{user.phone}</Text>
+          <Text style={styles.inputText}>{t("phone")}: {user.phone}</Text>
         </View>
 
       </View>

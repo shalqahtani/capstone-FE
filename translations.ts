@@ -1,0 +1,66 @@
+const translations = {
+  settings: { en: "Settings", ar: "الإعدادات" },
+  language: { en: "Language", ar: "اللغة" },
+  myDonations: { en: "My Donations", ar: "تبرعاتي" },
+  myCollections: { en: "My Collections", ar: "مجموعتي" },
+  loading: { en: "Loading...", ar: "جار التحميل..." },
+  noItems: { en: "No items found.", ar: "لا توجد عناصر." },
+  logout: { en: "Logout", ar: "تسجيل الخروج" },
+  profile: { en: "Profile", ar: "الملف الشخصي" },
+  name: { en: "Name", ar: "الاسم" },
+  email: { en: "Email", ar: "البريد الإلكتروني" },
+  phone: { en: "Phone", ar: "رقم الجوال" },
+  tender: { en: "Tender", ar: "عطاء" },
+  details: { en: "Details", ar: "تفاصيل" },
+  quantity: { en: "Quantity", ar: "الكمية" },
+  address: { en: "Address", ar: "العنوان" },
+  location: { en: "Location", ar: "الموقع" },
+  clothes: { en: "Clothes", ar: "ملابس" },
+  food: { en: "Food", ar: "طعام" },
+  furniture: { en: "Furniture", ar: "أثاث" },
+  notifications: { en: "Notifications", ar: "الإشعارات" },
+  collect: { en: "Collect", ar: "استلام" },
+  collectedSuccess: { en: "Collected item successfully!", ar: "تم الاستلام بنجاح!" },
+  collectFailed: { en: "Failed to collect. Please try again.", ar: "فشل الاستلام. حاول مرة أخرى." },
+  call: { en: "Call", ar: "اتصال" },
+  whatsapp: { en: "WhatsApp", ar: "واتساب" },
+  viewOnMap: { en: "View on Map", ar: "عرض على الخريطة" },
+  collectedMsg: { en: "collected", ar: "استلم" },
+  donate: { en: "Donate", ar: "تبرع" },
+  donateSubtitle: {
+    en: "Enter item details, location, and upload a picture.",
+    ar: "أدخل تفاصيل العنصر والموقع وقم بتحميل صورة."
+  },
+  detailsPlaceholder: {
+    en: "Details about the item you want to donate",
+    ar: "تفاصيل حول العنصر الذي تريد التبرع به"
+  },
+  phoneNumber: { en: "Phone Number", ar: "رقم الجوال" },
+  useCurrentLocation: { en: "Use Current Location", ar: "استخدم الموقع الحالي" },
+  uploadPhoto: { en: "Upload Photo", ar: "تحميل صورة" },
+  donationSuccess: { en: "Donation submitted successfully!", ar: "تم إرسال التبرع بنجاح!" },
+  donationFailed: { en: "Failed to donate. Please try again.", ar: "فشل في التبرع. حاول مرة أخرى." },
+  fillAllFields: { en: "Please fill in all required fields.", ar: "يرجى ملء جميع الحقول المطلوبة." },
+  locationPermissionDenied: { en: "Permission to access location was denied", ar: "تم رفض إذن الوصول إلى الموقع" },
+    welcome: {
+    en: "Welcome! This app helps you donate or collect food, clothes, and furniture for free. Join our community to give or receive essentials and make a positive impact!",
+    ar: "مرحبًا! يساعدك هذا التطبيق على التبرع أو جمع الطعام والملابس والأثاث مجانًا. انضم إلى مجتمعنا لتقديم أو استلام الاحتياجات الأساسية وإحداث تأثير إيجابي!"
+  },
+    chooseLanguage: { en: "Choose Language", ar: "اختر اللغة" },
+      chooseAction: {
+    en: "Would you like to donate or collect {{type}}?",
+    ar: "هل ترغب في التبرع أو الاستلام لـ{{type}}؟"
+  },
+  register: { en: "Register", ar: "تسجيل" },
+  createAccount: { en: "Create your account", ar: "أنشئ حسابك" },
+  password: { en: "Password", ar: "كلمة المرور" },
+  uploadProfileImage: { en: "Upload Profile Image", ar: "تحميل صورة الملف الشخصي" },
+  alreadyHaveAccount: { en: "Already have an account?", ar: "هل لديك حساب بالفعل؟" },
+  login: { en: "Login", ar: "تسجيل الدخول" },
+  loginToAccount: { en: "Login to your account", ar: "سجّل الدخول إلى حسابك" },
+  username: { en: "Username", ar: "اسم المستخدم" },
+  dontHaveAccount: { en: "Don't have an account?", ar: "ليس لديك حساب؟" },
+
+};
+
+export default translations;

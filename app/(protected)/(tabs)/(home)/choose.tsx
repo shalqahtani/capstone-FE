@@ -1,12 +1,14 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import useT from "@/utils/useT";
 
 const images = require("../../../../images/IMG-20250707-WA0008.jpg");
 
 export default function Choose() {
   const { type } = useLocalSearchParams();
   const router = useRouter();
+  const t = useT();
 
   return (
     <View style={{ flex: 1 }}>
@@ -17,22 +19,23 @@ export default function Choose() {
       >
         <View style={styles.overlay}>
           <Text style={styles.title}>
-            {type?.toString().charAt(0).toUpperCase() + type?.toString().slice(1)}
+            {type ? t(type as "clothes" | "food" | "furniture") : ""}
           </Text>
           <Text style={styles.subtitle}>
-            Would you like to donate or collect {type}?
+            {t("chooseAction")
+              .replace("{{type}}", t(type as "clothes" | "food" | "furniture"))}
           </Text>
           <View style={styles.buttonRow}>
             <Link href={`/(protected)/(tabs)/(home)/provide?type=${type}`} asChild>
               <TouchableOpacity style={styles.buttonGreen}>
                 <MaterialIcons name="volunteer-activism" color={"#fff"} size={50} />
-                <Text style={styles.buttonWhiteText}>Donate</Text>
+                <Text style={styles.buttonWhiteText}>{t("donate")}</Text>
               </TouchableOpacity>
             </Link>
             <Link href={`/(protected)/(tabs)/(home)/receive?type=${type}`} asChild>
               <TouchableOpacity style={styles.buttonGreen}>
                 <MaterialIcons name="shopping-bag" color={"#fff"} size={50} />
-                <Text style={styles.buttonWhiteText}>Collect</Text>
+                <Text style={styles.buttonWhiteText}>{t("collect")}</Text>
               </TouchableOpacity>
             </Link>
           </View>

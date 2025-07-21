@@ -1,66 +1,63 @@
-import { fetchMyCollections } from '@/api/items'; // Create this API helper
+import { fetchMyCollections } from '@/api/items';
 import { useQuery } from '@tanstack/react-query';
 import { useLocalSearchParams } from 'expo-router';
 import { FlatList, StyleSheet, Text, View } from 'react-native';
+import useT from "@/utils/useT";
 
-export default function MyDonations() {
-    
-      const { type } = useLocalSearchParams();
+export default function MyCollections() {
+  const t = useT();
+  const { type } = useLocalSearchParams();
   const { data, isLoading } = useQuery({
-    queryKey: ['my-collections',type],
+    queryKey: ['my-collections', type],
     queryFn: () => fetchMyCollections(type as string),
   });
 
-  if (isLoading) return <Text>Loading...</Text>;
+  if (isLoading) return <Text>{t("loading")}</Text>;
 
   return (
     <View style={{ flex: 1, padding: 16 }}>
-      <Text style={{ fontSize: 24, fontWeight: 'bold' }}>My Collections</Text>
+      <Text style={{ fontSize: 24, fontWeight: 'bold' }}>{t("myCollections")}</Text>
       <FlatList
         data={data}
         keyExtractor={(item) => item._id}
-        renderItem={({ item }) => <View style={styles.card}>
-  <View style={styles.cardLeft}>
-    <Text style={styles.badge}>Tender</Text>
-    <Text style={styles.textLabel}>Details: {item.details}</Text>
-    <Text style={styles.textLabel}>Quantity: {item.quantity}</Text>
-    <Text style={styles.textLabel}>Address: {item.address}</Text>
-    <Text style={styles.textLabel}>Location: {item.location}</Text>
-    <Text style={styles.textLabel}>Phone: {item.contact}</Text>
-
-  </View>
-
-
-    </View>
-    
-    
-    }
+        ListEmptyComponent={<Text>{t("noItems")}</Text>}
+        renderItem={({ item }) => (
+          <View style={styles.card}>
+            <View style={styles.cardLeft}>
+              <Text style={styles.badge}>{t("tender")}</Text>
+              <Text style={styles.textLabel}>{t("details")}: {item.details}</Text>
+              <Text style={styles.textLabel}>{t("quantity")}: {item.quantity}</Text>
+              <Text style={styles.textLabel}>{t("address")}: {item.address}</Text>
+              <Text style={styles.textLabel}>{t("location")}: {item.location}</Text>
+              <Text style={styles.textLabel}>{t("phone")}: {item.contact}</Text>
+            </View>
+          </View>
+        )}
       />
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-cardRight: {
-  justifyContent: "space-between",
-  alignItems: "center",
-},
-collectButton: {
-  flexDirection: "row",
-  alignItems: "center",
-  backgroundColor: "#047e57",
-  paddingVertical: 6,
-  paddingHorizontal: 10,
-  borderRadius: 6,
-  marginTop: 8,
-},
-collectButtonText: {
-  color: "#fff",
-  fontSize: 14,
-  marginLeft: 6,
-  fontWeight: "600",
-},
-
+  cardRight: {
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  collectButton: {
+    flexDirection: "row",
+    alignItems: "center",
+    backgroundColor: "#047e57",
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 6,
+    marginTop: 8,
+  },
+  collectButtonText: {
+    color: "#fff",
+    fontSize: 14,
+    marginLeft: 6,
+    fontWeight: "600",
+  },
   container: { flex: 1, backgroundColor: "#e9f5f1" },
   header: {
     backgroundColor: "#047e57",
@@ -70,18 +67,16 @@ collectButtonText: {
     borderBottomRightRadius: 24,
   },
   linkButton: {
-  fontSize: 14,
-  color: "#047e57",
-  marginTop: 4,
-  textDecorationLine: "underline",
-},
-
-    title: {
+    fontSize: 14,
+    color: "#047e57",
+    marginTop: 4,
+    textDecorationLine: "underline",
+  },
+  title: {
     fontSize: 26,
     fontWeight: "bold",
     paddingTop: 10,
     color: "#047e57",
-    // marginBottom: 12,
     textAlign: "center",
   },
   headerTitle: {

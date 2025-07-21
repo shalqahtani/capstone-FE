@@ -5,10 +5,10 @@ const me = async () => {
   return data;
 };
 
-const getSettings = async () => {
-  const { data } = await instance.get("users/settings");
+const updateLang = async (lang:string) => {
+  const { data } = await instance.post("users/settings",{lang});
   return data;
 };
 
 
-export { getSettings, me };
+export { updateLang, me };

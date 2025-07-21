@@ -19,6 +19,7 @@ export default function RootLayout() {
   const queryClient = new QueryClient();
   const [isAuthenticated, setIsAuthenticated] = useState(false);
  const [user, setUser] = useState<User | null>(null);
+ const [lang, setLang] = useState("en" as "en" | "ar");
   useEffect(() => {
     const checkToken = async () => {
       const token = await getToken();
@@ -27,21 +28,22 @@ export default function RootLayout() {
         setIsAuthenticated(true);
         setUser(JSON.parse(userData));
       } else {
+       // alert("You are not authenticated. Please log in.");
         setIsAuthenticated(false);
         setUser(null);
-        router.replace("/login");
+        router.replace("/choose-language");
       }
     };
     checkToken();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser }}>
+    <AuthContext.Provider value={{ isAuthenticated, setIsAuthenticated, user, setUser, lang, setLang }}>
       <SafeAreaProvider>
         <SafeAreaView style={{ flex: 1, backgroundColor: colors.primary }}>
           <QueryClientProvider client={queryClient}>
             <Stack screenOptions={{ headerShown: false }}>
-              <Stack.Screen name="choose-language" />
+              {/* <Stack.Screen name="choose-language" /> */}
               <Stack.Screen name="(auth)" />
               <Stack.Screen name="(protected)" />
             </Stack>

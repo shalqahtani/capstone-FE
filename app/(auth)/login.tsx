@@ -13,12 +13,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import useT from "@/utils/useT";
 
 const Index = () => {
+  const t = useT();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [image, setImage] = useState<string | null>(null);
-const images = require("../../images/IMG-20250707-WA0010.jpg");
+  const images = require("../../images/IMG-20250707-WA0010.jpg");
 
   const mlogin = useMutation({
     mutationKey: ["login"],
@@ -27,11 +28,13 @@ const images = require("../../images/IMG-20250707-WA0010.jpg");
       router.navigate("/");
     },
   });
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
-    > <ImageBackground
+    >
+      <ImageBackground
         source={images}
         style={StyleSheet.absoluteFill}
         imageStyle={{ width: "100%", height: "100%", objectFit: "cover" }}
@@ -39,7 +42,7 @@ const images = require("../../images/IMG-20250707-WA0010.jpg");
       <View
         style={{
           flex: 1,
-          backgroundColor: true ? "rgba(0,0,0,0)" : "transparent",
+          backgroundColor: "rgba(0,0,0,0)",
           marginTop: 100,
           padding: 40,
           justifyContent: "center",
@@ -47,30 +50,33 @@ const images = require("../../images/IMG-20250707-WA0010.jpg");
         }}
       >
         <View style={{ width: "100%", padding: 20 }}>
+          {/* <Text style={{ color: colors.primary, fontSize: 24, fontWeight: "bold", marginBottom: 10 }}>
+            {t("login")}
+          </Text> */}
           {/* <Text style={{ color: colors.primary, fontSize: 16 }}>
-            Login to your account
+            {t("loginToAccount")}
           </Text> */}
 
           <TextInput
             style={{
-              backgroundColor:  true ? "rgba(4, 126, 87, 0.2)" : "transparent",
+              backgroundColor: "rgba(4, 126, 87, 0.2)",
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
             }}
-            placeholder="Username"
+            placeholder={t("username")}
             value={username}
             onChangeText={setUsername}
           />
 
           <TextInput
             style={{
-              backgroundColor:  true ? "rgba(4, 126, 87, 0.2)" : "transparent",
+              backgroundColor: "rgba(4, 126, 87, 0.2)",
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
             }}
-            placeholder="Password"
+            placeholder={t("password")}
             value={password}
             secureTextEntry
             onChangeText={setPassword}
@@ -93,17 +99,17 @@ const images = require("../../images/IMG-20250707-WA0010.jpg");
                 fontSize: 16,
               }}
             >
-              Login
+              {t("login")}
             </Text>
           </TouchableOpacity>
 
-          <Text style={{ color: colors.primary, fontSize: 16,marginTop: 20 }}>
-            Don't have an account?{" "}
-<Text
+          <Text style={{ color: colors.primary, fontSize: 16, marginTop: 20 }}>
+            {t("dontHaveAccount")}{" "}
+            <Text
               style={{ color: colors.primary, fontWeight: "bold" }}
               onPress={() => router.navigate("/(auth)/register")}
             >
-              Register
+              {t("register")}
             </Text>
           </Text>
         </View>

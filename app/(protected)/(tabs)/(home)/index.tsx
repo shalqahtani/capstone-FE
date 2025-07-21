@@ -1,6 +1,7 @@
+import AuthContext from "@/context/AuthContext";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Link, useNavigation } from "expo-router";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   ImageBackground,
   StyleSheet,
@@ -8,59 +9,59 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
+import useT from "@/utils/useT";
 
 const images = require("../../../../images/IMG-20250707-WA0008.jpg");
 
 export default function Home() {
   const [step, setStep] = useState<"home" | "choose" | "provide" | "receive">("home");
   const [type, setType] = useState<string>("");
-  
+  const { lang } = useContext(AuthContext);
   const navigation = useNavigation();
+  const t = useT();
+
   useEffect(() => {
     navigation.setOptions({
-      headerBackVisible: false, // <-- hides the back button
-      gestureEnabled: false,    // <-- disables swipe back gesture (optional)
+      headerBackVisible: false,
+      gestureEnabled: false,
     });
   }, [navigation]);
+
   // Home screen
   if (step === "home") {
     return (
- <View style={{ flex: 1, position: "relative" }}>
-      <ImageBackground
-        source={images}
-        style={StyleSheet.absoluteFill}
-        imageStyle={{ width: "110%", height: "110%", objectFit: "cover" }}
-      />
-      <View style={styles.overlay}>
-        <Text style={styles.description}>
-          Welcome! This app helps you donate or collect food, clothes, and furniture for free. 
-          Join our community to give or receive essentials and make a positive impact!
-        </Text>
-        <View style={styles.buttonContainer}>
-          <Link href="/(protected)/(tabs)/(home)/choose?type=clothes" asChild>
-            <TouchableOpacity style={styles.buttonWhite}>
-              <MaterialIcons name="checkroom" color={"#047e57"} size={50} />
-              <Text style={styles.buttonGreenText}>Clothes</Text>
-            </TouchableOpacity>
-          </Link>
-          <Link href="/(protected)/(tabs)/(home)/choose?type=food" asChild>
-            <TouchableOpacity style={styles.buttonWhite}>
-              <MaterialIcons name="restaurant" color={"#047e57"} size={50} />
-              <Text style={styles.buttonGreenText}>Food</Text>
-            </TouchableOpacity>
-          </Link>
-          <Link href="/(protected)/(tabs)/(home)/choose?type=furniture" asChild>
-            <TouchableOpacity style={styles.buttonWhite}>
-              <MaterialIcons name="weekend" color={"#047e57"} size={50} />
-              <Text style={styles.buttonGreenText}>Furniture</Text>
-            </TouchableOpacity>
-          </Link>
+      <View style={{ flex: 1, position: "relative" }}>
+        <ImageBackground
+          source={images}
+          style={StyleSheet.absoluteFill}
+          imageStyle={{ width: "110%", height: "110%", objectFit: "cover" }}
+        />
+        <View style={styles.overlay}>
+          <Text style={styles.description}>
+            {t("welcome")}
+          </Text>
+          <View style={styles.buttonContainer}>
+            <Link href="/(protected)/(tabs)/(home)/choose?type=clothes" asChild>
+              <TouchableOpacity style={styles.buttonWhite}>
+                <MaterialIcons name="checkroom" color={"#047e57"} size={50} />
+                <Text style={styles.buttonGreenText}>{t("clothes")}</Text>
+              </TouchableOpacity>
+            </Link>
+            <Link href="/(protected)/(tabs)/(home)/choose?type=food" asChild>
+              <TouchableOpacity style={styles.buttonWhite}>
+                <MaterialIcons name="restaurant" color={"#047e57"} size={50} />
+                <Text style={styles.buttonGreenText}>{t("food")}</Text>
+              </TouchableOpacity>
+            </Link>
+            <Link href="/(protected)/(tabs)/(home)/choose?type=furniture" asChild>
+              <TouchableOpacity style={styles.buttonWhite}>
+                <MaterialIcons name="weekend" color={"#047e57"} size={50} />
+                <Text style={styles.buttonGreenText}>{t("furniture")}</Text>
+              </TouchableOpacity>
+            </Link>
+          </View>
         </View>
-        {/* <Text style={styles.title}>Clothes Section</Text>
-        <Text style={styles.subtitle}>Provide or Receive Clothes</Text> */}
-        {/* Add navigation to Provide/Receptor pages here */}
       </View>
-    </View>
     );
   }
 

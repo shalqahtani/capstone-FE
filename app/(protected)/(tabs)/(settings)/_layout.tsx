@@ -1,28 +1,48 @@
 import { deleteToken } from "@/api/storage";
+import { updateLang } from "@/api/users";
 import AuthContext from "@/context/AuthContext";
-import { useQueryClient } from "@tanstack/react-query";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { Link, router } from "expo-router";
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import {
   ImageBackground,
   StyleSheet,
+  Switch,
   Text,
   TouchableOpacity,
   View,
+  I18nManager,
 } from "react-native";
+import useT from "@/utils/useT";
 
 const background = require("../../../../images/IMG-20250707-WA0015.jpg");
 
 const Settings = () => {
-    const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
+  const t = useT();
+  const { lang, setLang, isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
 
   const queryClient = useQueryClient();
   const logout = () => {
-    deleteToken(); // <--- This to delete token
-    queryClient.clear(); // Clear all cached queries
-    setIsAuthenticated(false); // If using context
+    deleteToken();
+    queryClient.clear();
+    setIsAuthenticated(false);
     router.push("/login");
   };
+type Lang = "en" | "ar";
+  const isArabic = lang === "ar";
+  const toggleSwitch = () => {setLang(isArabic ? "en" : "ar");
+    mChangeLang.mutate({ lang: isArabic ? "en" : "ar" });
+  };
+ const mChangeLang = useMutation({
+    mutationKey: ["changeLang"],
+    mutationFn: ({lang}: { lang: Lang}) =>  updateLang(lang),
+    onSuccess: () => {
+     setLang(isArabic ? "en" : "ar");
+    },
+  });
+  useEffect(() => {
+    I18nManager.forceRTL(lang === "ar");
+  }, [lang]);
   return (
     <View style={{ flex: 1 }}>
       <ImageBackground
@@ -33,30 +53,35 @@ const Settings = () => {
 
       <View style={styles.overlay}>
         <View style={styles.card}>
-          <Text style={styles.title}>Settings</Text>
+          <Text style={styles.title}>{t("settings")}</Text>
 
-          {/* Settings Options */}
-          <TouchableOpacity style={styles.option}>
-            <Text style={styles.optionText}>Language</Text>
-          </TouchableOpacity>
-   <Link href="/choose/chooseItem?type=MyDonations" asChild>
-          <TouchableOpacity style={styles.option}>
-            <Text style={styles.optionText}>My Donations</Text>
-          </TouchableOpacity>
-</Link>
+          {/* Language Switch */}
+          <View style={[styles.option, { flexDirection: "row", alignItems: "center", justifyContent: "space-between" }]}>
+            <Text style={styles.optionText}>{t("language")}</Text>
+            <Text style={styles.optionText}>EN</Text>
+            <Switch
+              value={isArabic}
+              onValueChange={toggleSwitch}
+              thumbColor={isArabic ? "#047e57" : "#ccc"}
+              trackColor={{ false: "#ccc", true: "#047e57" }}
+            />
+            <Text style={styles.optionText}>AR</Text>
+          </View>
 
-      <Link href="/choose/chooseItem?type=MyCollections" asChild>
-          <TouchableOpacity style={styles.option}>
-            <Text style={styles.optionText}>My Collections</Text>
-          </TouchableOpacity>
-</Link>
+          <Link href="/choose/chooseItem?type=MyDonations" asChild>
+            <TouchableOpacity style={styles.option}>
+              <Text style={styles.optionText}>{t("myDonations")}</Text>
+            </TouchableOpacity>
+          </Link>
+
+          <Link href="/choose/chooseItem?type=MyCollections" asChild>
+            <TouchableOpacity style={styles.option}>
+              <Text style={styles.optionText}>{t("myCollections")}</Text>
+            </TouchableOpacity>
+          </Link>
           <TouchableOpacity style={styles.option} onPress={() => logout()} >
-            <Text style={styles.optionText}>Logout</Text>
+            <Text style={styles.optionText}>{t("logout")}</Text>
           </TouchableOpacity>
-          {/* Contact Button */}
-          {/* <TouchableOpacity style={styles.contactBtn}>
-            <Text style={styles.contactBtnText}>Contact Us</Text>
-          </TouchableOpacity> */}
         </View>
       </View>
     </View>

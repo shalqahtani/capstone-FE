@@ -15,10 +15,14 @@ import {
   View,
 } from "react-native";
 import colors from "../../data/styling/colors";
+import useT from "@/utils/useT";
+
 const Register = () => {
+  const t = useT();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [image, setImage] = useState<string | null>(null);
+
   const pickImage = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ["images"],
@@ -27,14 +31,11 @@ const Register = () => {
       quality: 1,
     });
     if (!result.canceled && result.assets && result.assets.length > 0 && result.assets[0].uri) {
-      
-    console.log("Registering with image: result.assets[0].uri", result.assets[0].uri);
-      setImage(result.assets[0].uri); // Only set the URI string
+      setImage(result.assets[0].uri);
     }
   };
 
-
-const images = require("../../images/IMG-20250707-WA0010.jpg");
+  const images = require("../../images/IMG-20250707-WA0010.jpg");
 
   const mregister = useMutation({
     mutationKey: ["register"],
@@ -48,15 +49,16 @@ const images = require("../../images/IMG-20250707-WA0010.jpg");
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
       style={{ flex: 1 }}
-    > <ImageBackground
-            source={images}
-            style={StyleSheet.absoluteFill}
-            imageStyle={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
+    >
+      <ImageBackground
+        source={images}
+        style={StyleSheet.absoluteFill}
+        imageStyle={{ width: "100%", height: "100%", objectFit: "cover" }}
+      />
       <View
         style={{
           flex: 1,
-          backgroundColor: true ? "rgba(0,0,0,0)" : "transparent",
+          backgroundColor: "rgba(0,0,0,0)",
           padding: 40,
           justifyContent: "center",
           alignItems: "center",
@@ -71,54 +73,53 @@ const images = require("../../images/IMG-20250707-WA0010.jpg");
               marginBottom: 10,
             }}
           >
-            Register
+            {t("register")}
           </Text>
           <Text style={{ color: colors.primary, fontSize: 16 }}>
-            Create your account
+            {t("createAccount")}
           </Text>
 
           <TextInput
             style={{
-              backgroundColor:  true ? "rgba(4, 126, 87, 0.2)" : "transparent",
+              backgroundColor: "rgba(4, 126, 87, 0.2)",
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
             }}
             value={email}
             onChangeText={setEmail}
-            placeholder="Email"
+            placeholder={t("email")}
           />
 
           <TextInput
             style={{
-              backgroundColor:  true ? "rgba(4, 126, 87, 0.2)" : "transparent",
+              backgroundColor: "rgba(4, 126, 87, 0.2)",
               padding: 10,
               borderRadius: 5,
               marginTop: 20,
             }}
             value={password}
             onChangeText={setPassword}
-            placeholder="Password"
+            placeholder={t("password")}
+            secureTextEntry
           />
 
-              {
-    image && (
-      <Image
-        source={{ uri: image }}
-        style={{
-          height: 100,
-          width: 100,
-          borderRadius: 50,
-          marginTop: 10,
-        }}
-      />
-    )
-  }
-  <TouchableOpacity style={{ marginTop: 20 }} onPress={pickImage}>
-    <Text style={{ color: colors.primary, fontSize: 16 }}>
-      Upload Profile Image
-    </Text>
-  </TouchableOpacity>
+          {image && (
+            <Image
+              source={{ uri: image }}
+              style={{
+                height: 100,
+                width: 100,
+                borderRadius: 50,
+                marginTop: 10,
+              }}
+            />
+          )}
+          <TouchableOpacity style={{ marginTop: 20 }} onPress={pickImage}>
+            <Text style={{ color: colors.primary, fontSize: 16 }}>
+              {t("uploadProfileImage")}
+            </Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={{
               backgroundColor: colors.primary,
@@ -136,16 +137,18 @@ const images = require("../../images/IMG-20250707-WA0010.jpg");
                 fontSize: 16,
               }}
             >
-              Register
+              {t("register")}
             </Text>
           </TouchableOpacity>
 
           <TouchableOpacity style={{ marginTop: 20, alignItems: "center" }}>
             <Text style={{ color: colors.primary, fontSize: 16 }}>
-              Already have an account?{" "}
-              <Text style={{ color: colors.primary, fontWeight: "bold" }}
-                onPress={() => router.navigate("/(auth)/login")}>
-                Login
+              {t("alreadyHaveAccount")}{" "}
+              <Text
+                style={{ color: colors.primary, fontWeight: "bold" }}
+                onPress={() => router.navigate("/(auth)/login")}
+              >
+                {t("login")}
               </Text>
             </Text>
           </TouchableOpacity>
@@ -163,4 +166,5 @@ const styles = StyleSheet.create({
     height: 200,
     marginBottom: 16,
     borderRadius: 8,
-  },});
+  },
+});

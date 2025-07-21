@@ -9,24 +9,26 @@ import {
   Text,
   View
 } from "react-native";
+import useT from "@/utils/useT";
 
 const images = require("../../../../images/IMG-20250707-WA0009.jpg");
 
 const Notification = () => {
-//  const [notifications, setNotifications] = useState<string[]>([]);
+  const t = useT();
 
-const {
-  data: notifications,
-  isFetching,
-  isError,
-  refetch,
-} = useQuery({
-  queryKey: ["notifications"],
-  queryFn: () => getNotifications(),
-  refetchOnWindowFocus: true, // <-- add this line
-  refetchOnMount: true,       // <-- add this line for extra safety
-});
-    useFocusEffect(
+  const {
+    data: notifications,
+    isFetching,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["notifications"],
+    queryFn: () => getNotifications(),
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+  });
+
+  useFocusEffect(
     useCallback(() => {
       refetch();
     }, [refetch])
@@ -46,9 +48,9 @@ const {
         imageStyle={{ width: "110%", height: "110%", resizeMode: "cover" }}
       />
       <View style={styles.overlay}>
-        <Text style={styles.title}>Notifications</Text>
-        {notifications&&notifications.length === 0 ? (
-          <Text style={styles.subtitle}>Loading notifications...</Text>
+        <Text style={styles.title}>{t("notifications")}</Text>
+        {notifications && notifications.length === 0 ? (
+          <Text style={styles.subtitle}>{t("noItems")}</Text>
         ) : (
           <FlatList
             data={notifications}
@@ -83,13 +85,13 @@ const styles = StyleSheet.create({
   list: {
     paddingTop: 20,
   },
- notificationItem: {
-  backgroundColor: "#f0f0f0", // Light grey background
-  padding: 16,
-  marginVertical: 8,
-  borderRadius: 10,
-  elevation: 2,
-},
+  notificationItem: {
+    backgroundColor: "#f0f0f0",
+    padding: 16,
+    marginVertical: 8,
+    borderRadius: 10,
+    elevation: 2,
+  },
   notificationText: {
     fontSize: 16,
     color: "#333",

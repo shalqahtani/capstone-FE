@@ -13,123 +13,138 @@ import {
   TouchableOpacity,
   View
 } from "react-native";
-
-
+import useT from "@/utils/useT";
 
 export default function Receive() {
   const { type } = useLocalSearchParams();
   const capitalizedType = type?.toString().charAt(0).toUpperCase() + type?.toString().slice(1);
   const getLatLongFromLocation = (locationString: string) => {
-  const match = locationString.match(/Lat:\s*(-?\d+(\.\d+)?),\s*Lon:\s*(-?\d+(\.\d+)?)/);
-  if (!match) return null;
-  const lat = parseFloat(match[1]);
-  const lon = parseFloat(match[3]);
-  return { lat, lon };
-};
+    const match = locationString.match(/Lat:\s*(-?\d+(\.\d+)?),\s*Lon:\s*(-?\d+(\.\d+)?)/);
+    if (!match) return null;
+    const lat = parseFloat(match[1]);
+    const lon = parseFloat(match[3]);
+    return { lat, lon };
+  };
   const { user, isAuthenticated } = useContext(AuthContext);
+  const t = useT();
 
-const {
-  data: items,
-  isFetching,
-  isError,
-  refetch,
-} = useQuery({
-  queryKey: ["items", type],
-  queryFn: () => fetchItemsByType(type as string),
-  refetchOnWindowFocus: true, // <-- add this line
-  refetchOnMount: true,       // <-- add this line for extra safety
-});
-    useFocusEffect(
+  const {
+    data: items,
+    isFetching,
+    isError,
+    refetch,
+  } = useQuery({
+    queryKey: ["items", type],
+    queryFn: () => fetchItemsByType(type as string),
+    refetchOnWindowFocus: true,
+    refetchOnMount: true,
+  });
+
+  useFocusEffect(
     useCallback(() => {
       refetch();
     }, [refetch])
   );
+
   const mcollect = useMutation({
     mutationKey: ["collect"],
-    mutationFn: ({ provider,receiver,itemType,itemId,message}: { provider: string;receiver: string;itemType: string;itemId: string;message: string;}) =>
-    collect(provider,receiver,itemType,itemId,message),
+    mutationFn: ({
+      provider,
+      receiver,
+      itemType,
+      itemId,
+      message,
+    }: {
+      provider: string;
+      receiver: string;
+      itemType: string;
+      itemId: string;
+      message: string;
+    }) => collect(provider, receiver, itemType, itemId, message),
     onSuccess: () => {
-    alert("Collected item successfully!");
-  },
-  onError: (err) => {
-    alert("Failed to collect. Please try again.");
-    console.error(err);
-  },
-});
-  return (
-  <View style={styles.container}>
-      {/* <View style={styles.header}> */}
-        <Text style={styles.title}>Collect {capitalizedType}</Text>
-      {/* </View> */}
+      alert(t("collectedSuccess"));
+      refetch();
+    },
+    onError: (err) => {
+      alert(t("collectFailed"));
+      console.error(err);
+    },
+  });
 
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>{t("collect")} {t(type as "clothes" | "food" | "furniture")}</Text>
       <FlatList
         data={items}
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.listContent}
+        ListEmptyComponent={<Text>{t("noItems")}</Text>}
         renderItem={({ item }) => (
-<View style={styles.card}>
-  <View style={styles.cardLeft}>
-    <Text style={styles.badge}>Tender</Text>
-    <Text style={styles.textLabel}>Details: {item.details}</Text>
-    <Text style={styles.textLabel}>Quantity: {item.quantity}</Text>
-    <Text style={styles.textLabel}>Address: {item.address}</Text>
-    <Text style={styles.textLabel}>Location: {item.location}</Text>
-    <Text style={styles.textLabel}>Phone: {item.contact}</Text>
+          <View style={styles.card}>
+            <View style={styles.cardLeft}>
+              <Text style={styles.badge}>{t("tender")}</Text>
+              <Text style={styles.textLabel}>{t("details")}: {item.details}</Text>
+              <Text style={styles.textLabel}>{t("quantity")}: {item.quantity}</Text>
+              <Text style={styles.textLabel}>{t("address")}: {item.address}</Text>
+              <Text style={styles.textLabel}>{t("location")}: {item.location}</Text>
+              <Text style={styles.textLabel}>{t("phone")}: {item.contact}</Text>
 
-    {/* Call Button */}
-    <Text
-      style={styles.linkButton}
-      onPress={() =>
-        Linking.openURL(`tel:${item.contact.length === 8 ? `+965${item.contact}` : item.contact}`)
-      }
-    >
-      <MaterialIcons name="call" size={20} color="#047e57" /> Call
-    </Text>
+              {/* Call Button */}
+              <Text
+                style={styles.linkButton}
+                onPress={() =>
+                  Linking.openURL(`tel:${item.contact.length === 8 ? `+965${item.contact}` : item.contact}`)
+                }
+              >
+                <MaterialIcons name="call" size={20} color="#047e57" /> {t("call")}
+              </Text>
 
-    {/* WhatsApp Button */}
-    <Text
-      style={styles.linkButton}
-      onPress={() =>
-        Linking.openURL(`https://wa.me/${item.contact.length === 8 ? `965${item.contact}` : item.contact}`)
-      }
-    >
-      <FontAwesome name="whatsapp" size={20} color="#25D366" /> WhatsApp
-    </Text>
-    {item.location && getLatLongFromLocation(item.location) && (
-  <Text
-    style={styles.linkButton}
-    onPress={() => {
-      const coords = getLatLongFromLocation(item.location);
-      if (coords) {
-        Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lon}`);
-      }
-    }}
-  >
-    <MaterialIcons name="location-on" size={20} color="#f44336" /> View on Map
-  </Text>
-    )}
-  </View>
+              {/* WhatsApp Button */}
+              <Text
+                style={styles.linkButton}
+                onPress={() =>
+                  Linking.openURL(`https://wa.me/${item.contact.length === 8 ? `965${item.contact}` : item.contact}`)
+                }
+              >
+                <FontAwesome name="whatsapp" size={20} color="#25D366" /> {t("whatsapp")}
+              </Text>
+              {item.location && getLatLongFromLocation(item.location) && (
+                <Text
+                  style={styles.linkButton}
+                  onPress={() => {
+                    const coords = getLatLongFromLocation(item.location);
+                    if (coords) {
+                      Linking.openURL(`https://www.google.com/maps/search/?api=1&query=${coords.lat},${coords.lon}`);
+                    }
+                  }}
+                >
+                  <MaterialIcons name="location-on" size={20} color="#f44336" /> {t("viewOnMap")}
+                </Text>
+              )}
+            </View>
 
-  <View style={styles.cardRight}>
-    {item.image && (
-      <Image source={{ uri: item.image }}  resizeMode="contain" style={styles.cardImage} />
-    )}
-    
-    <TouchableOpacity
-      style={styles.collectButton}
-      onPress={() =>
-        
-        // isAuthenticated && user &&
-        mcollect.mutate(
-          { provider: item.provider, receiver: user?._id as string,itemType: type as string, itemId: item._id, 
-            message: `${user?.email as string} collected ${item.details} from you.` })
-    }
-    >
-      <MaterialIcons name="check-circle" size={20} color="#fff" />
-      <Text style={styles.collectButtonText}>Collect</Text>
-    </TouchableOpacity>
-      </View>
-    </View>
+            <View style={styles.cardRight}>
+              {item.image && (
+                <Image source={{ uri: item.image }} resizeMode="contain" style={styles.cardImage} />
+              )}
+
+              <TouchableOpacity
+                style={styles.collectButton}
+                onPress={() =>
+                  mcollect.mutate({
+                    provider: item.provider,
+                    receiver: user?._id as string,
+                    itemType: type as string,
+                    itemId: item._id,
+                    message: `${user?.email as string} ${t("collectedMsg")} ${item.details}`,
+                  })
+                }
+              >
+                <MaterialIcons name="check-circle" size={20} color="#fff" />
+                <Text style={styles.collectButtonText}>{t("collect")}</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
         )}
       />
     </View>

@@ -1,7 +1,7 @@
 import { provideItemsByType } from "@/api/items";
 import { useMutation } from "@tanstack/react-query";
 import * as ImagePicker from "expo-image-picker";
-import * as Location from "expo-location"; // ✅ Location import
+import * as Location from "expo-location";
 import { useLocalSearchParams } from "expo-router";
 import React, { useState } from "react";
 import {
@@ -16,11 +16,13 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import useT from "@/utils/useT";
 
 const backgroundImage = require("../../../../images/IMG-20250707-WA0015.jpg");
 
 export default function Provide() {
   const { type } = useLocalSearchParams();
+  const t = useT();
   const capitalizedType = type?.toString().charAt(0).toUpperCase() + type?.toString().slice(1);
 
   const [details, setDetails] = useState("");
@@ -30,48 +32,43 @@ export default function Provide() {
   const [image, setImage] = useState<string | null>(null);
   const [phoneNumber, setPhoneNumber] = useState("");
 
-
   const handleImagePick = async () => {
     let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes:["images"],
+      mediaTypes: ["images"],
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
     if (!result.canceled && result.assets && result.assets.length > 0 && result.assets[0].uri) {
-      
-    console.log("Registering with image: result.assets[0].uri", result.assets[0].uri);
-      setImage(result.assets[0].uri); // Only set the URI string
+      setImage(result.assets[0].uri);
     }
   };
 
-  // ✅ Get current location function
   const getCurrentLocation = async () => {
     let { status } = await Location.requestForegroundPermissionsAsync();
     if (status !== "granted") {
-      alert("Permission to access location was denied");
+      alert(t("locationPermissionDenied"));
       return;
     }
-
     let locationData = await Location.getCurrentPositionAsync({});
     const coords = locationData.coords;
     const locationString = `Lat: ${coords.latitude.toFixed(6)}, Lon: ${coords.longitude.toFixed(6)}`;
     setLocation(locationString);
   };
+
   const mprovide = useMutation({
     mutationKey: ["provide"],
-    mutationFn: ({ type, data }: { type: string; data: any}) =>
+    mutationFn: ({ type, data }: { type: string; data: any }) =>
+      provideItemsByType(type, data, image || ""),
+    onSuccess: () => {
+      alert(t("donationSuccess"));
+    },
+    onError: (err) => {
+      alert(t("donationFailed"));
+      console.error(err);
+    },
+  });
 
-    provideItemsByType(type, data,image||""),
-   onSuccess: () => {
-    alert("Donation submitted successfully!");
-  },
-  onError: (err) => {
-    console.log(image);
-    alert("Failed to donate. Please try again.");
-    console.error(err);
-  },
-});
   return (
     <ImageBackground source={backgroundImage} style={styles.background}>
       <View style={styles.overlay}>
@@ -80,23 +77,23 @@ export default function Provide() {
           style={{ flex: 1, width: "100%" }}
         >
           <ScrollView contentContainerStyle={styles.formContainer}>
-            <Text style={styles.title}>Donate {capitalizedType}</Text>
+            <Text style={styles.title}>{t("donate")} {t(type as "clothes" | "food" | "furniture")}</Text>
             <Text style={styles.subtitle}>
-              Enter item details, location, and upload a picture.
+              {t("donateSubtitle")}
             </Text>
-    
+
             <TextInput
               style={styles.input}
-              placeholder="Details about the item you want to donate"
+              placeholder={t("detailsPlaceholder")}
               value={details}
               onChangeText={setDetails}
               multiline
-  numberOfLines={4}
+              numberOfLines={4}
             />
 
             <TextInput
               style={styles.input}
-              placeholder="Quantity"
+              placeholder={t("quantity")}
               keyboardType="numeric"
               value={quantity}
               onChangeText={setQuantity}
@@ -104,65 +101,55 @@ export default function Provide() {
 
             <TextInput
               style={styles.input}
-              placeholder="Address"
+              placeholder={t("address")}
               value={address}
               onChangeText={setAddress}
             />
             <TextInput
-  style={styles.input}
-  placeholder="Phone Number"
-  keyboardType="phone-pad"
-  value={phoneNumber}
-  onChangeText={setPhoneNumber}
-/>
+              style={styles.input}
+              placeholder={t("phoneNumber")}
+              keyboardType="phone-pad"
+              value={phoneNumber}
+              onChangeText={setPhoneNumber}
+            />
 
-            
-              {/* ✅ Button to get current location */}
- 
-{/* <TouchableOpacity style={styles.uploadButton} onPress={handleImagePick}>
-              <Text style={styles.uploadText}>Upload Photo</Text>
-            </TouchableOpacity> */}
-                       <TouchableOpacity style={styles.uploadButton} onPress={getCurrentLocation}>
-              <Text style={styles.uploadText}>Use Current Location</Text>
+            <TouchableOpacity style={styles.uploadButton} onPress={getCurrentLocation}>
+              <Text style={styles.uploadText}>{t("useCurrentLocation")}</Text>
             </TouchableOpacity>
             <TextInput
               style={styles.input}
-              placeholder="Location"
+              placeholder={t("location")}
               value={location}
               onChangeText={setLocation}
             />
 
-          
-
             <TouchableOpacity style={styles.uploadButton} onPress={handleImagePick}>
-              <Text style={styles.uploadText}>Upload Photo</Text>
+              <Text style={styles.uploadText}>{t("uploadPhoto")}</Text>
             </TouchableOpacity>
 
             {image && (
               <Image source={{ uri: image }} style={styles.previewImage} />
             )}
 
-<TouchableOpacity
-  style={styles.submitButton}
-  onPress={() => {
-    if (!details || !quantity || !address || !location || !phoneNumber) {
-      alert("Please fill in all required fields.");
-      return;
-    }
-
-    const data = {
-      details,
-      quantity,
-      address,
-      location,
-      contact: phoneNumber
-    };
-
-    mprovide.mutate({ type: type as string, data});
-  }}
->
-  <Text style={styles.submitText}>Donate</Text>
-</TouchableOpacity>
+            <TouchableOpacity
+              style={styles.submitButton}
+              onPress={() => {
+                if (!details || !quantity || !address || !location || !phoneNumber) {
+                  alert(t("fillAllFields"));
+                  return;
+                }
+                const data = {
+                  details,
+                  quantity,
+                  address,
+                  location,
+                  contact: phoneNumber
+                };
+                mprovide.mutate({ type: type as string, data });
+              }}
+            >
+              <Text style={styles.submitText}>{t("donate")}</Text>
+            </TouchableOpacity>
           </ScrollView>
         </KeyboardAvoidingView>
       </View>

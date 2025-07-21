@@ -7,11 +7,15 @@ export interface User {
   _id: string;
 }
 
+type Lang = "en" | "ar";
+
 interface AuthContextType {
   isAuthenticated: boolean;
   setIsAuthenticated: (isAuthenticated: boolean) => void;
   user: User | null;
   setUser: (user: User | null) => void;
+  lang: Lang;
+  setLang: (lang: Lang) => void;
 }
 
 const AuthContext = createContext<AuthContextType>({
@@ -19,6 +23,8 @@ const AuthContext = createContext<AuthContextType>({
   setIsAuthenticated: () => {},
   user: null,
   setUser: () => {},
+  lang: 'en',
+  setLang: () => {},
 });
 
 export default AuthContext;

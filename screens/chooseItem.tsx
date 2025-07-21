@@ -1,12 +1,14 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import { Link, useLocalSearchParams, useRouter } from "expo-router";
 import { ImageBackground, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import useT from "@/utils/useT";
 
 const images = require("../images/IMG-20250707-WA0008.jpg");
 
 export default function Choose() {
   const { type } = useLocalSearchParams();
   const router = useRouter();
+  const t = useT();
 
   return (
     <View style={{ flex: 1 }}>
@@ -23,19 +25,19 @@ export default function Choose() {
             <Link href={`./../choose/${type}?type=clothes`} asChild>
               <TouchableOpacity style={styles.buttonGreen}>
                 <MaterialIcons name="volunteer-activism" color={"#fff"} size={50} />
-                <Text style={styles.buttonWhiteText}>Clothes</Text>
+                <Text style={styles.buttonWhiteText}>{t("clothes")}</Text>
               </TouchableOpacity>
             </Link>
             <Link href={`./../choose/${type}?type=food`} asChild>
               <TouchableOpacity style={styles.buttonGreen}>
                 <MaterialIcons name="shopping-bag" color={"#fff"} size={50} />
-                <Text style={styles.buttonWhiteText}>Food</Text>
+                <Text style={styles.buttonWhiteText}>{t("food")}</Text>
               </TouchableOpacity>
             </Link>
             <Link href={`./../choose/${type}?type=furniture`} asChild>
               <TouchableOpacity style={styles.buttonGreen}>
                 <MaterialIcons name="weekend" color={"#fff"} size={50} />
-                <Text style={styles.buttonWhiteText}>Furniture</Text>
+                <Text style={styles.buttonWhiteText}>{t("furniture")}</Text>
               </TouchableOpacity>
             </Link>
           </View>

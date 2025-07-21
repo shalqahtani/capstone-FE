@@ -1,9 +1,10 @@
 import colors from "@/data/styling/colors";
 import { MaterialIcons } from "@expo/vector-icons";
 import { Tabs } from "expo-router";
-import React from "react";
+import React, { useState } from "react";
 import { StyleSheet } from "react-native";
 const TabLayout = () => {
+  
   return (
     <Tabs
       screenOptions={{

@@ -1,19 +1,31 @@
 import instance from "./index";
 import { send } from "./notifications";
 
-export const provideItemsByType = async (itemType: string,itemData:any,image:string) => {
+export const provideItemsByType = async (itemType: string, itemData: any, image: string) => {
   const formData = new FormData();
   formData.append("details", itemData.details);
   formData.append("quantity", itemData.quantity);
   formData.append("address", itemData.address);
   formData.append("location", itemData.location);
   formData.append("contact", itemData.contact);
-formData.append("image", {
-  uri: image,              // file:///... path
-  name:  'photo.jpg',
-  type:  'image/jpeg',
-} as any);
-    const { data } = await instance.post(`${itemType}/provide`,formData
+
+  if (image) {
+    formData.append("image", {
+      uri: image,
+      name: "photo.jpg",
+      type: "image/jpeg",
+    } as any);
+  }
+
+  const { data } = await instance.post(
+    `${itemType}/provide`,
+    formData,
+    {
+      headers: {
+        // Do NOT set Content-Type manually, let Axios handle it!
+        // "Content-Type": "multipart/form-data",
+      },
+    }
   );
   console.log("Data sent to server:", data);
   return data;
