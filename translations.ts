@@ -70,7 +70,7 @@ const translations = {
   chooseLanguage: { en: "Choose Language", ar: "اختر اللغة" },
   chooseAction: {
     en: "Would you like to donate or collect {{type}}?",
-    ar: "هل ترغب في التبرع أو الاستلام لـ{{type}}؟",
+    ar: "هل ترغب في التبرع أو الاستلام للـ{{type}}؟",
   },
   register: { en: "Register", ar: "تسجيل" },
   createAccount: { en: "Create your account", ar: "أنشئ حسابك" },
