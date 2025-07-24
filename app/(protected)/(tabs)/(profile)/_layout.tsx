@@ -1,6 +1,6 @@
 import { MaterialIcons } from "@expo/vector-icons";
 import * as ImagePicker from "expo-image-picker";
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useCallback } from "react";
 import {
   Image,
   StyleSheet,
@@ -10,20 +10,18 @@ import {
 } from "react-native";
 import AuthContext from "@/context/AuthContext";
 import useT from "@/utils/useT";
+import { useQuery } from "@tanstack/react-query";
+import { me } from "@/api/users";
+import { useFocusEffect } from "expo-router";
 
 const background = require("../../../../images/IMG-20250707-WA0006.jpg");
 
 const MyProfile = () => {
   const [image, setImage] = useState<string | null>(null);
   const { lang } = useContext(AuthContext);
+  const { user } = useContext(AuthContext);
   const t = useT();
-
-  const user = {
-    name: "Shahad Al Qahtani",
-    email: "shahad@gmail.com",
-    phone: "999999999",
-  };
-
+  
   const pickImage = async () => {
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -52,17 +50,17 @@ const MyProfile = () => {
         </TouchableOpacity>
 
         {/* Profile Fields */}
-        <View style={styles.inputBox}>
+        {/* <View style={styles.inputBox}>
           <Text style={styles.inputText}>{t("name")}: {user.name}</Text>
-        </View>
+        </View> */}
 
         <View style={styles.inputBox}>
-          <Text style={styles.inputText}>{t("email")}: {user.email}</Text>
+          <Text style={styles.inputText}>{t("email")}: {user?.email}</Text>
         </View>
 
-        <View style={styles.inputBox}>
+        {/* <View style={styles.inputBox}>
           <Text style={styles.inputText}>{t("phone")}: {user.phone}</Text>
-        </View>
+        </View> */}
 
       </View>
     // </ImageBackground>
@@ -109,7 +107,7 @@ const styles = StyleSheet.create({
   inputBox: {
     width: "100%",
     backgroundColor: "#fff",
-    borderColor: "#047e57",
+    borderColor: "#047e5755",
     borderWidth: 1.5,
     borderRadius: 10,
     padding: 14,
